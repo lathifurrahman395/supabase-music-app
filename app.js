@@ -384,7 +384,7 @@ else if (currentPage === 'elsong.html') {
             if (!forceRefresh && cache.songs && cache.songsTimestamp && 
                 (now - cache.songsTimestamp) < cache.CACHE_DURATION) {
                 console.log('📦 Using cached songs');
-                renderSongs(cache.songs);
+                await renderSongs(cache.songs);
                 return;
             }
 
@@ -406,7 +406,7 @@ else if (currentPage === 'elsong.html') {
                 cache.songsTimestamp = now;
 
                 console.log('✅ Loaded', songs?.length || 0, 'songs');
-                renderSongs(cache.songs);
+                await renderSongs(cache.songs);
             } catch (error) {
                 console.error('Exception fetching songs:', error);
                 songListElement.innerHTML = `<li style="grid-column: 1 / -1; color: #ff5555; background: none; box-shadow: none;">Error memuat lagu</li>`;
@@ -472,7 +472,7 @@ else if (currentPage === 'elsong.html') {
             }
         }
 
-        function renderSongs(songs) {
+        async function renderSongs(songs) {
             songListElement.innerHTML = '';
             
             if (songs.length === 0) {
@@ -480,24 +480,37 @@ else if (currentPage === 'elsong.html') {
                 return;
             }
 
+            // Load semua cover URL secara parallel
+            const songsWithCovers = await Promise.all(songs.map(async (song) => {
+                let coverUrl = 'https://placehold.co/60/121212/1DB954?text=♪';
+                
+                if (song.cover_path) {
+                    try {
+                        const { data: signedCover, error } = await supabase.storage
+                            .from('cover')
+                            .createSignedUrl(song.cover_path, 3600);
+                        
+                        if (!error && signedCover?.signedUrl) {
+                            coverUrl = signedCover.signedUrl;
+                        }
+                    } catch (err) {
+                        console.warn('Error getting cover for:', song.title, err);
+                    }
+                }
+                
+                return { ...song, coverUrl };
+            }));
+
             const fragment = document.createDocumentFragment();
 
-            songs.forEach(song => {
+            songsWithCovers.forEach(song => {
                 const li = document.createElement('li');
                 li.className = 'song-item';
                 li.dataset.songId = song.id;
 
-                let coverUrl = 'https://placehold.co/60/121212/1DB954?text=♪';
-                if (song.cover_path) {
-                    const { data: coverData } = supabase.storage.from('cover').getPublicUrl(song.cover_path);
-                    if (coverData?.publicUrl) {
-                        coverUrl = coverData.publicUrl;
-                    }
-                }
-
                 li.innerHTML = `
                     <div style="display: flex; align-items: center; flex-grow: 1;">
-                        <img src="${coverUrl}" alt="Cover" loading="lazy">
+                        <img src="${song.coverUrl}" alt="Cover" loading="lazy" onerror="this.src='https://placehold.co/60/121212/1DB954?text=♪'">
                         <div class="song-info">
                             <div class="song-title">${song.title}</div>
                             <div class="song-artist">${song.artist}</div>
@@ -512,12 +525,14 @@ else if (currentPage === 'elsong.html') {
                     </div>
                 `;
 
+                // Play song on click
                 li.addEventListener('click', (e) => {
                     if (!e.target.closest('.delete-btn')) {
-                        playSong(song.id, song.storage_path, song.title, song.artist, coverUrl);
+                        playSong(song.id, song.storage_path, song.title, song.artist, song.coverUrl);
                     }
                 });
 
+                // Delete button
                 const deleteBtn = li.querySelector('.delete-btn');
                 deleteBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
