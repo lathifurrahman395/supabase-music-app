@@ -11,121 +11,575 @@
         :root {
             --bg-base: #000000; --bg-dark: #121212; --card-dark: #202020; --bg-sidebar: #050505; --color-primary: #1ed760; --color-text: #ffffff; --color-link: #b3b3b3; --color-logout: #E91E63; --border-color: #282828; --button-hover: #1ed760; --player-height: 90px; --glow-color: rgba(30, 215, 96, 0.4);
         }
+        
         /* 1. LAYOUT UTAMA */
-        body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-base); color: var(--color-text); margin: 0; display: flex; height: 100vh; overflow: hidden; }
-        #app-container { display: flex; width: 100%; height: calc(100vh - var(--player-height)); }
+        * {
+            scroll-behavior: smooth;
+            box-sizing: border-box;
+        }
+        
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: var(--bg-base); 
+            color: var(--color-text); 
+            margin: 0; 
+            display: flex; 
+            height: 100vh; 
+            overflow: hidden; 
+        }
+        
+        #app-container { 
+            display: flex; 
+            width: 100%; 
+            height: calc(100vh - var(--player-height)); 
+        }
+        
         /* 2. SIDEBAR (PANEL KIRI) */
-        #sidebar { width: 250px; background: linear-gradient(to bottom, #0d0d0d, var(--bg-sidebar)); padding: 20px; box-shadow: 2px 0 10px rgba(0, 0, 0, 0.7); display: flex; flex-direction: column; flex-shrink: 0; }
-        #app-title { font-size: 1.6em; font-weight: 900; margin-bottom: 25px; letter-spacing: 0.5px; text-shadow: 0 0 5px var(--glow-color); }
+        #sidebar { 
+            width: 250px; 
+            background: linear-gradient(to bottom, #0d0d0d, var(--bg-sidebar)); 
+            padding: 20px; 
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.7); 
+            display: flex; 
+            flex-direction: column; 
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+        
+        #app-title { 
+            font-size: 1.6em; 
+            font-weight: 900; 
+            margin-bottom: 25px; 
+            letter-spacing: 0.5px; 
+            text-shadow: 0 0 5px var(--glow-color); 
+        }
+        
         /* Navigasi Sidebar */
-        .sidebar-nav a { display: flex; align-items: center; padding: 12px 15px; color: var(--color-link); text-decoration: none; border-radius: 6px; margin-bottom: 8px; transition: all 0.2s; font-weight: 500; }
-        .sidebar-nav a i { margin-right: 10px; width: 20px; text-align: center; }
-        .sidebar-nav a:hover { background-color: var(--card-dark); color: var(--color-text); }
-        .sidebar-nav a.active { color: var(--color-text) !important; background-color: #333333; font-weight: 700; box-shadow: 0 0 5px rgba(29, 185, 84, 0.3); }
+        .sidebar-nav a { 
+            display: flex; 
+            align-items: center; 
+            padding: 12px 15px; 
+            color: var(--color-link); 
+            text-decoration: none; 
+            border-radius: 6px; 
+            margin-bottom: 8px; 
+            transition: all 0.2s; 
+            font-weight: 500; 
+        }
+        
+        .sidebar-nav a i { 
+            margin-right: 10px; 
+            width: 20px; 
+            text-align: center; 
+        }
+        
+        .sidebar-nav a:hover { 
+            background-color: var(--card-dark); 
+            color: var(--color-text); 
+        }
+        
+        .sidebar-nav a.active { 
+            color: var(--color-text) !important; 
+            background-color: #333333; 
+            font-weight: 700; 
+            box-shadow: 0 0 5px rgba(29, 185, 84, 0.3); 
+        }
+        
         /* Logout di Sidebar */
-        #logout-btn-sidebar { margin-top: auto; padding: 10px 15px; background-color: transparent; color: var(--color-logout); border: 1px solid var(--color-logout); border-radius: 500px; cursor: pointer; font-weight: 500; transition: all 0.2s; width: 100%; }
+        #logout-btn-sidebar { 
+            margin-top: auto; 
+            padding: 10px 15px; 
+            background-color: transparent; 
+            color: var(--color-logout); 
+            border: 1px solid var(--color-logout); 
+            border-radius: 500px; 
+            cursor: pointer; 
+            font-weight: 500; 
+            transition: all 0.2s; 
+            width: 100%; 
+        }
+        
+        #logout-btn-sidebar:hover {
+            background-color: var(--color-logout);
+            color: white;
+        }
+        
         /* 3. MAIN CONTENT (AREA UTAMA) */
-        #main-content { flex-grow: 1; padding: 30px; background: linear-gradient(to bottom right, #202020 0%, var(--bg-dark) 50%, #000000 100%); overflow-y: auto; }
-        h2 { font-size: 2em; font-weight: 900; padding-bottom: 8px; border-bottom: 3px solid var(--color-primary); text-shadow: 0 0 3px rgba(29, 185, 84, 0.5); margin-bottom: 25px; display: inline-block; }
+        #main-content { 
+            flex-grow: 1; 
+            padding: 30px; 
+            background: linear-gradient(to bottom right, #202020 0%, var(--bg-dark) 50%, #000000 100%); 
+            overflow-y: auto; 
+        }
+        
+        h2 { 
+            font-size: 2em; 
+            font-weight: 900; 
+            padding-bottom: 8px; 
+            border-bottom: 3px solid var(--color-primary); 
+            text-shadow: 0 0 3px rgba(29, 185, 84, 0.5); 
+            margin-bottom: 25px; 
+            display: inline-block; 
+        }
+        
         /* Kontainer Konten */
-        .content-section { display: none; padding: 0; }
-        .content-section.active { display: block; }
+        .content-section { 
+            display: none; 
+            padding: 0; 
+        }
+        
+        .content-section.active { 
+            display: block; 
+        }
+        
         /* 4. DAFTAR LAGU (Song List) */
-        .song-list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
-        .song-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; background-color: var(--card-dark); border-radius: 10px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); position: relative; overflow: hidden; }
-        .song-item:hover { background-color: #282828; transform: translateY(-3px); border: 1px solid var(--color-primary); }
-        .song-item.active { background-color: #303030; box-shadow: 0 0 15px rgba(29, 185, 84, 0.4); border: 1px solid var(--color-primary); }
-        .song-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; margin-right: 15px; box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); }
-        .song-title { font-weight: 700; font-size: 1.1em; }
-        .song-artist { color: var(--color-link); font-size: 0.85em; }
-        .delete-btn { color: var(--color-logout); opacity: 0; transition: opacity 0.2s; }
-        .song-item:hover .delete-btn { opacity: 1; }
-        .delete-btn:hover { background-color: var(--color-logout); color: var(--color-text); }
-        /* 5. FORM TAMBAH LAGU - Peningkatan Layout Vertikal */
-        #add-song-form { background-color: var(--card-dark); padding: 30px; border-radius: 12px; margin-top: 20px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); display: flex; flex-direction: column; gap: 15px; }
-        .form-group { display: flex; flex-direction: column; gap: 5px; }
-        #add-song-form label { color: var(--color-link); font-size: 0.9em; font-weight: 500; }
-        #add-song-form input[type="text"], #add-song-form input[type="file"] { width: 100%; padding: 12px; background-color: var(--bg-dark); border: 1px solid var(--border-color); border-radius: 6px; color: var(--color-text); box-sizing: border-box; }
-        #upload-song-btn { background-color: var(--color-primary); color: var(--bg-dark); border: none; padding: 12px 20px; border-radius: 500px; cursor: pointer; font-weight: 700; transition: background-color 0.2s, transform 0.2s; margin-top: 10px; }
-        #upload-song-btn:hover { background-color: var(--button-hover); transform: translateY(-1px); }
-        #upload-status { color: var(--color-link); font-size: 0.9em; text-align: center; }
-        /* 6. FIXED PLAYER BAR (FOOTER) */
-        /* === PLAYER BAR (Cover & Audio Player) === */
-#player-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: var(--player-height);
-  background-color: var(--card-dark);
-  border-top: 1px solid var(--border-color);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 25px;
-  z-index: 100;
-  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.8);
-}
+        .song-list { 
+            list-style: none; 
+            padding: 0; 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 20px; 
+            margin-bottom: 40px; 
+        }
+        
+        .song-item { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 15px; 
+            background-color: var(--card-dark); 
+            border-radius: 10px; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+            position: relative; 
+            overflow: hidden; 
+        }
+        
+        .song-item:hover { 
+            background-color: #282828; 
+            transform: translateY(-3px); 
+            border: 1px solid var(--color-primary); 
+        }
+        
+        .song-item.active { 
+            background-color: #303030; 
+            box-shadow: 0 0 15px rgba(29, 185, 84, 0.4); 
+            border: 1px solid var(--color-primary); 
+        }
+        
+        .song-item img { 
+            width: 60px; 
+            height: 60px; 
+            object-fit: cover; 
+            border-radius: 6px; 
+            margin-right: 15px; 
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); 
+            background-color: var(--card-dark);
+        }
+        
+        .song-title { 
+            font-weight: 700; 
+            font-size: 1.1em; 
+        }
+        
+        .song-artist { 
+            color: var(--color-link); 
+            font-size: 0.85em; 
+        }
+        
+        .delete-btn { 
+            color: var(--color-logout); 
+            opacity: 0; 
+            transition: opacity 0.2s;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        
+        .song-item:hover .delete-btn { 
+            opacity: 1; 
+        }
+        
+        .delete-btn:hover { 
+            background-color: var(--color-logout); 
+            color: var(--color-text); 
+        }
+        
+        /* 5. FORM TAMBAH LAGU */
+        #add-song-form { 
+            background-color: var(--card-dark); 
+            padding: 30px; 
+            border-radius: 12px; 
+            margin-top: 20px; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+        }
+        
+        .form-group { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 5px; 
+        }
+        
+        #add-song-form label { 
+            color: var(--color-link); 
+            font-size: 0.9em; 
+            font-weight: 500; 
+        }
+        
+        #add-song-form input[type="text"], 
+        #add-song-form input[type="file"] { 
+            width: 100%; 
+            padding: 12px; 
+            background-color: var(--bg-dark); 
+            border: 1px solid var(--border-color); 
+            border-radius: 6px; 
+            color: var(--color-text); 
+            box-sizing: border-box; 
+        }
+        
+        #upload-song-btn { 
+            background-color: var(--color-primary); 
+            color: var(--bg-dark); 
+            border: none; 
+            padding: 12px 20px; 
+            border-radius: 500px; 
+            cursor: pointer; 
+            font-weight: 700; 
+            transition: background-color 0.2s, transform 0.2s; 
+            margin-top: 10px; 
+        }
+        
+        #upload-song-btn:hover { 
+            background-color: var(--button-hover); 
+            transform: translateY(-1px); 
+        }
+        
+        #upload-status { 
+            color: var(--color-link); 
+            font-size: 0.9em; 
+            text-align: center; 
+        }
+        
+        /* 6. FIXED PLAYER BAR */
+        #player-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--player-height);
+            background-color: var(--card-dark);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
+            z-index: 100;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.8);
+        }
 
-/* Cover + Info Lagu */
-#current-track-info {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
+        #current-track-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-/* Cover Album */
-#player-image {
-  width: 70px;
-  height: 70px;
-  border-radius: 8px;
-  object-fit: cover;
-  box-shadow: 0 0 10px rgba(0,0,0,0.6);
-  transition: transform 0.3s ease;
-}
-#player-image:hover {
-  transform: scale(1.05);
-}
+        #player-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 0 10px rgba(0,0,0,0.6);
+            transition: transform 0.3s ease;
+        }
+        
+        #player-image:hover {
+            transform: scale(1.05);
+        }
 
-/* Info Lagu */
-.playing-title {
-  font-weight: 700;
-  font-size: 1em;
-  color: #fff;
-  margin-bottom: 4px;
-}
-.playing-artist {
-  font-size: 0.85em;
-  color: #b3b3b3;
-}
+        .playing-title {
+            font-weight: 700;
+            font-size: 1em;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+        
+        .playing-artist {
+            font-size: 0.85em;
+            color: #b3b3b3;
+        }
 
-/* Pemutar Audio */
-#audio-player {
-  width: 400px;
-  height: 40px;
-  background-color: transparent;
-  filter: brightness(0.9);
-}
+        #audio-player {
+            width: 400px;
+            height: 40px;
+            background-color: transparent;
+            filter: brightness(0.9);
+        }
 
-/* Responsif agar tetap rapi di layar kecil */
-@media (max-width: 768px) {
-  #player-bar {
-    flex-direction: column;
-    align-items: flex-start;
-    height: auto;
-    padding: 15px;
-  }
-  #audio-player {
-    width: 100%;
-  }
-  #current-track-info {
-    margin-bottom: 10px;
-  }
-}
+        /* Hamburger Menu untuk Mobile */
+        #hamburger-btn {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1000;
+            background-color: var(--color-primary);
+            border: none;
+            color: var(--bg-dark);
+            font-size: 1.5em;
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
 
+        /* ========================================== */
+        /* MOBILE RESPONSIVE */
+        /* ========================================== */
+        @media (max-width: 768px) {
+            body {
+                overflow-x: hidden;
+            }
+
+            #hamburger-btn {
+                display: block;
+            }
+
+            #app-container {
+                flex-direction: column;
+                height: auto;
+            }
+
+            #sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 280px;
+                height: 100vh;
+                z-index: 999;
+                transform: translateX(-100%);
+                box-shadow: 5px 0 15px rgba(0, 0, 0, 0.8);
+            }
+
+            #sidebar.active {
+                transform: translateX(0);
+            }
+
+            /* Overlay saat sidebar terbuka */
+            #sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.7);
+                z-index: 998;
+            }
+
+            #sidebar-overlay.active {
+                display: block;
+            }
+
+            #app-title {
+                font-size: 1.4em;
+                margin-bottom: 15px;
+            }
+
+            #user-display {
+                font-size: 0.8em;
+                margin-bottom: 15px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            #logout-btn-sidebar {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+
+            #main-content {
+                padding: 80px 15px 20px 15px;
+                height: auto;
+                min-height: calc(100vh - var(--player-height));
+            }
+
+            h2 {
+                font-size: 1.5em;
+                margin-bottom: 20px;
+            }
+
+            .song-list {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .song-item {
+                padding: 12px;
+            }
+
+            .song-item img {
+                width: 50px;
+                height: 50px;
+            }
+
+            .song-title {
+                font-size: 1em;
+            }
+
+            .song-artist {
+                font-size: 0.8em;
+            }
+
+            .delete-btn {
+                opacity: 1;
+                padding: 8px;
+            }
+
+            #add-song-form {
+                padding: 20px 15px;
+                gap: 12px;
+            }
+
+            #add-song-form input[type="text"],
+            #add-song-form input[type="file"] {
+                padding: 10px;
+                font-size: 16px; /* Prevent zoom on iOS */
+                -webkit-appearance: none;
+                appearance: none;
+            }
+
+            #upload-song-btn {
+                padding: 10px 15px;
+                font-size: 1em;
+            }
+
+            #player-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                height: auto;
+                padding: 15px;
+                gap: 10px;
+            }
+
+            #current-track-info {
+                width: 100%;
+                gap: 12px;
+            }
+
+            #player-image {
+                width: 60px;
+                height: 60px;
+            }
+
+            .playing-title {
+                font-size: 0.95em;
+            }
+
+            .playing-artist {
+                font-size: 0.8em;
+            }
+
+            #audio-player {
+                width: 100%;
+                height: 35px;
+            }
+
+            .quick-stats {
+                padding: 15px !important;
+                margin-top: 20px !important;
+            }
+
+            .quick-stats h3 {
+                font-size: 1.1em;
+            }
+
+            .quick-stats p {
+                font-size: 0.9em;
+            }
+        }
+
+        /* Mobile sangat kecil */
+        @media (max-width: 480px) {
+            #app-title {
+                font-size: 1.2em;
+            }
+
+            h2 {
+                font-size: 1.3em;
+            }
+
+            .sidebar-nav a {
+                font-size: 0.95em;
+                padding: 10px 15px;
+            }
+
+            .song-item {
+                padding: 10px;
+            }
+
+            .song-item img {
+                width: 45px;
+                height: 45px;
+                margin-right: 10px;
+            }
+
+            .song-title {
+                font-size: 0.95em;
+            }
+
+            .song-artist {
+                font-size: 0.75em;
+            }
+
+            #player-image {
+                width: 50px;
+                height: 50px;
+            }
+
+            .playing-title {
+                font-size: 0.9em;
+            }
+
+            .playing-artist {
+                font-size: 0.75em;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .sidebar-nav a,
+            .song-item,
+            button,
+            #logout-btn-sidebar {
+                min-height: 44px;
+            }
+
+            .song-item,
+            .sidebar-nav a {
+                user-select: none;
+                -webkit-user-select: none;
+                -webkit-tap-highlight-color: transparent;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Hamburger Menu Button -->
+    <button id="hamburger-btn">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar Overlay -->
+    <div id="sidebar-overlay"></div>
+
     <div id="app-container">
         
         <div id="sidebar">
@@ -133,7 +587,6 @@
             <p id="user-display" style="font-size: 0.9em; color: var(--color-link); margin-bottom: 30px;"></p>
             
             <div class="sidebar-nav">
-                <!-- Tambahkan kelas active awal di Beranda -->
                 <a href="#" class="menu-item active" id="menu-beranda"><i class="fas fa-home"></i> Beranda</a>
                 <a href="#" class="menu-item" id="menu-daftar-lagu"><i class="fas fa-compact-disc"></i> Daftar Lagu</a>
                 <a href="#" class="menu-item" id="menu-unggah"><i class="fas fa-cloud-upload-alt"></i> Unggah</a>
@@ -147,7 +600,7 @@
         <div id="main-content">
             
             <!-- 1. KONTEN BERANDA -->
-            <div id="content-beranda" class="content-section active"> <!-- Tambahkan active di sini -->
+            <div id="content-beranda" class="content-section active">
                 <h2>Selamat Datang!</h2>
                 <p>Silakan jelajahi koleksi musik Anda melalui menu di sebelah kiri.</p>
                 <div class="quick-stats" style="padding: 20px; background-color: var(--card-dark); border-radius: 8px; margin-top: 30px;">
@@ -206,21 +659,50 @@
     </div>
     
     <!-- FIXED PLAYER BAR -->
-    <!-- FIXED PLAYER BAR -->
-<div id="player-bar">
-  <div id="current-track-info">
-    <img id="player-image" src="https://via.placeholder.com/70/1DB954/FFFFFF?text=EL" alt="Cover">
-    <div>
-      <div id="current-title" class="playing-title">Tidak ada lagu yang dipilih</div>
-      <div id="current-artist" class="playing-artist">EL-SONGS</div>
+    <div id="player-bar">
+        <div id="current-track-info">
+            <img id="player-image" src="https://via.placeholder.com/70/1DB954/FFFFFF?text=EL" alt="Cover">
+            <div>
+                <div id="current-title" class="playing-title">Tidak ada lagu yang dipilih</div>
+                <div id="current-artist" class="playing-artist">EL-SONGS</div>
+            </div>
+        </div>
+
+        <audio id="audio-player" controls></audio>
     </div>
-  </div>
-
-  <audio id="audio-player" controls></audio>
-</div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="app.js"></script>
+    <script>
+        // Mobile Sidebar Toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const sidebar = document.getElementById('sidebar');
+            const sidebarOverlay = document.getElementById('sidebar-overlay');
+            const menuItems = document.querySelectorAll('.menu-item');
+
+            function toggleSidebar() {
+                sidebar.classList.toggle('active');
+                sidebarOverlay.classList.toggle('active');
+            }
+
+            function closeSidebar() {
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            }
+
+            hamburgerBtn.addEventListener('click', toggleSidebar);
+            sidebarOverlay.addEventListener('click', closeSidebar);
+
+            // Close sidebar saat menu item diklik di mobile
+            menuItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) {
+                        closeSidebar();
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
