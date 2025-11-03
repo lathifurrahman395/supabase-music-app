@@ -365,6 +365,8 @@
                 z-index: 999;
                 transform: translateX(-100%);
                 box-shadow: 5px 0 15px rgba(0, 0, 0, 0.8);
+                overflow-y: auto;
+                padding-bottom: 20px;
             }
 
             #sidebar.active {
@@ -400,9 +402,20 @@
                 white-space: nowrap;
             }
 
+            .sidebar-nav a {
+                font-size: 0.95em;
+                padding: 10px 15px;
+                margin-bottom: 6px;
+            }
+            
             #logout-btn-sidebar {
-                padding: 8px 15px;
+                padding: 10px 15px;
                 font-size: 0.9em;
+                margin-top: 20px;
+                position: sticky;
+                bottom: 0;
+                background-color: var(--bg-sidebar);
+                border-color: var(--color-logout);
             }
 
             #main-content {
@@ -451,7 +464,7 @@
             #add-song-form input[type="text"],
             #add-song-form input[type="file"] {
                 padding: 10px;
-                font-size: 16px; /* Prevent zoom on iOS */
+                font-size: 16px;
                 -webkit-appearance: none;
                 appearance: none;
             }
